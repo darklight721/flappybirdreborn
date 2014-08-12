@@ -15,6 +15,7 @@ Play.prototype = {
     this.background = this.game.add.sprite(0, 0, 'background');
 
     this.bird = new Bird(this.game, 100, this.game.height / 2);
+    this.bird.alive = true;
     this.game.add.existing(this.bird);
 
     this.pipes = this.game.add.group();
@@ -60,6 +61,7 @@ Play.prototype = {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
     this.bird.destroy();
     this.pipes.destroy();
+    this.ground.destroy();
   }
 };
 

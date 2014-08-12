@@ -1,5 +1,8 @@
-
 'use strict';
+
+var Bird = require('../prefabs/bird');
+var Ground = require('../prefabs/ground');
+
 function Menu() {}
 
 Menu.prototype = {
@@ -9,19 +12,17 @@ Menu.prototype = {
   create: function() {
     this.background = this.game.add.sprite(0, 0, 'background');
 
-    this.ground = this.game.add.tileSprite(0, 400, 335, 112, 'ground');
-    this.ground.autoScroll(-200, 0);
+    this.ground = new Ground(this.game, 0, 400, 335, 112);
+    this.game.add.existing(this.ground);
 
     this.titleGroup = this.game.add.group();
 
     this.title = this.game.add.sprite(0, 0, 'title');
     this.titleGroup.add(this.title);
 
-    this.bird = this.game.add.sprite(200, 5, 'bird');
+    this.bird = new Bird(this.game, 200, 5);
+    this.bird.body.allowGravity = false;
     this.titleGroup.add(this.bird);
-
-    this.bird.animations.add('flap');
-    this.bird.animations.play('flap', 12, true);
 
     this.titleGroup.x = 30;
     this.titleGroup.y = 100;
@@ -35,10 +36,14 @@ Menu.prototype = {
     this.startButton.anchor.setTo(0.5, 0.5);
   },
   startClick: function() {
-    this.game.state.start('play');
+    this.game.state.start('levelintro');
   },
   update: function() {
 
+  },
+  shutdown: function() {
+    this.bird.destroy();
+    this.ground.destroy();
   }
 };
 
